@@ -1,8 +1,8 @@
 package test;
 
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.regex.Pattern;
+
+import static test.GenericCast.casts;
 
 class A {
 }
@@ -84,12 +84,97 @@ class Camomile extends Plant {
         System.out.println("Cures");
     }
 }
-class Base{
-    public void show(int i){}
+
+class Base {
+    public void show(int i) {
+    }
 }
 
-class Quest extends Base{
-  void show (short i) {}
+class Quest extends Base {
+    void show(short i) {
+    }
+}
+
+class NoInkException extends Exception {
+}
+
+class Pen {
+    void write(String val) throws NoInkException {
+    }
+
+    void article() {
+       /* try{
+            new Pen();write("story");
+        }catch(NoInkException e){}*/
+         /*try{
+            new Pen();write("story");
+        }finally {}*/
+        /* try{
+            write("story");
+        }catch(Exception e){}*/
+        /* try{
+            new Pen();write("story");
+        }catch(RuntimeException e){}*/
+
+    }
+}
+
+class BoxPrinter<T> {
+    private T val;
+
+    public BoxPrinter(T arg) {
+        val = arg;
+    }
+
+    public String toString() {
+        return "[" + val + "]";
+    }
+}
+
+class BoxPrinter2<T> {
+    private String val;
+
+    public BoxPrinter2(String arg) {
+        val = arg;
+    }
+
+    public String toString() {
+        return "[" + val + "]";
+    }
+}
+
+class Utilites {
+    public static <T> void fill(T[] array, T val) {
+        for (int i = 0; i < array.length; i++)
+            array[i] = val;
+    }
+}
+
+class GenericCast {
+    static <E> E casts(Object item) {
+        return (E) item;
+    }
+}
+
+class Q<T> {
+    T mem;
+
+    public Q(T arg) {
+        mem = arg;
+    }
+}
+
+interface EnumBase {
+}
+
+enum AnEnum implements EnumBase {
+    ONLY_MEM;
+}
+
+class Coffee{
+    enum CoffeeSize{BIG, HUGE,OVER}
+    CoffeeSize size;
+    public Coffee(){}
 }
 public class Test {
     public void printOperationInc() {
@@ -262,6 +347,71 @@ public class Test {
         }
     }
 */
+
+    void boxrPrinter() {
+        BoxPrinter<String> value2 = new BoxPrinter<>("Hello world");
+        System.out.println(value2);
+    }
+
+    /*void boxrPrinter2(){
+        BoxPrinter<String> value1 = new BoxPrinter<>(10);
+        System.out.println( value1);
+        BoxPrinter<String> value2 = new BoxPrinter<>("Hello world");
+        System.out.println( value2);
+    }*/
+
+    void utiltties() {
+        Integer[] array = new Integer[2];
+        Utilites.fill(array, 5);
+        for (Integer s : array)
+            System.out.print(s);
+    }
+
+    void genericCast() {
+        Object o1 = 10;
+        int i = 10;
+        Integer anInteger = 10;
+        Integer i1 = casts(o1);
+        Integer i2 = casts(i);
+        Integer i3 = casts(10);
+        Integer i4 = casts(anInteger);
+        System.out.println("" + i1 + i2 + i3 + i4);
+    }
+
+    void enumBase() {
+        if (AnEnum.ONLY_MEM instanceof AnEnum) {
+            System.out.println("yes, is AnEnum");
+        }
+        if (AnEnum.ONLY_MEM instanceof EnumBase) {
+            System.out.println("yes, is EnumBase");
+        }
+        if (AnEnum.ONLY_MEM instanceof Enum) {
+            System.out.println("yes, is Enum");
+        }
+    }
+
+    void coffee(){
+        Coffee drink = new Coffee();
+        drink.size = Coffee.CoffeeSize.BIG;
+        System.out.println(drink.size);
+    }
+    enum CoffeeSize2{BIG, HUGE,OVER}
+
+    enum Direction{ S, N}
+
+   /* void intGer(){
+        Integer i = new Integer(5);
+        i.doubleValue();
+        System.out.println(i);
+    }*/
+
+    void inGer(){
+        Integer i3 = 100;
+        Integer i4 = 100;
+        if( i3 == i4) System.out.println("same obj");
+        if(i3.equals(i4))System.out.println("equal obj");
+    }
+
     public static void main(String[] args) {
         Test test = new Test();
         //test.printOperationInc();
@@ -279,11 +429,22 @@ public class Test {
         //test.abcab();
         //test.abcab2();
         //test.stringSplit();
-        test.stringTrimmed();
-
-
-
-
+        //test.stringTrimmed();
+        //test.boxrPrinter();
+        //test.utiltties();
+        //test.genericCast();
+        //test.enumBase();
+        //test.coffee();
+       /* CoffeeSize2 cs = CoffeeSize2.BIG;
+        System.out.println(cs);*/
+        //System.out.println(CoffeeSize2.values());
+       // System.out.println(Direction.valueOf(1));
+        //test.intGer();
+        //test.inGer();
+        String s1 = "asd";
+        String s2= s1;
+        s1= "wwww";
+        System.out.println(s1+ " " + s2);
     }
 
 }
